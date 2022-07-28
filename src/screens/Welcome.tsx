@@ -1,7 +1,8 @@
 import React from "react";
 import theme from "../constants/Theme";
 import AppText from "../components/AppText";
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import Button from "../components/Button";
+import { StyleSheet, View, Pressable, Image } from "react-native";
 
 const Welcome = () => {
   return (
@@ -14,10 +15,11 @@ const Welcome = () => {
         <AppText.Subtitle style={{ fontWeight: "bold" }}>
           Welcome to ChatApp
         </AppText.Subtitle>
-        <AppText.Subtext style={{ width: "45%", flexWrap: "wrap" }}>
+        <AppText.Subtext style={{ width: "65%", textAlign: "center" }}>
           Join to connect with your friends and maybe to find some new ones!
         </AppText.Subtext>
-        <AppText style={styles.button}>Register</AppText>
+        <Button title="Register"></Button>
+        <Button.Grey title="Login"></Button.Grey>
       </View>
     </View>
   );
@@ -33,32 +35,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   imageContainer: {
-    paddingTop: 100,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    flex: 5,
+    flex: 3,
   },
   icon: {
     width: 150,
     height: 120,
   },
   textContainer: {
-    flex: 4,
+    flex: 2,
     width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-  button: {
-    backgroundColor: theme.colors.backgroundBlue,
-    width: "90%",
-    height: 50,
-    color: theme.colors.textPrimary,
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
   },
 });
 

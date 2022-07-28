@@ -19,10 +19,6 @@ const styles = StyleSheet.create({
   fontSizeSubHeading: {
     fontSize: theme.fontSizes.subheading,
   },
-  fontWeightBold: {
-    //Couldnt get it from the theme for some
-    fontWeight: "700",
-  },
 });
 
 interface AppTextProps extends TextProps {
