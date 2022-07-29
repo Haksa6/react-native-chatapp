@@ -3,24 +3,6 @@ import { Text as NativeText, StyleSheet, TextProps } from "react-native";
 
 import theme from "../constants/Theme";
 
-const styles = StyleSheet.create({
-  text: {
-    color: theme.colors.textPrimary,
-    fontSize: theme.fontSizes.body,
-    fontFamily: theme.fonts.main,
-    fontWeight: "400",
-  },
-  colorTextSecondary: {
-    color: theme.colors.textSecondary,
-  },
-  fontSizeHeading: {
-    fontSize: theme.fontSizes.heading,
-  },
-  fontSizeSubHeading: {
-    fontSize: theme.fontSizes.subheading,
-  },
-});
-
 interface AppTextProps extends TextProps {
   children: string;
 }
@@ -38,5 +20,24 @@ AppText.Subtitle = ({ style, ...props }: AppTextProps) => (
 AppText.Subtext = ({ style, ...props }: AppTextProps) => (
   <AppText {...props} style={[styles.colorTextSecondary, style]} />
 );
+
+const styles = StyleSheet.create({
+  text: {
+    color: theme.colors.textPrimary,
+    fontSize: theme.fontSizes.body,
+    fontFamily: theme.fonts.main,
+  },
+  colorTextSecondary: {
+    color: theme.colors.textSecondary,
+  },
+  fontSizeHeading: {
+    fontSize: theme.fontSizes.heading,
+    fontWeight: "bold",
+  },
+  fontSizeSubHeading: {
+    fontSize: theme.fontSizes.subheading,
+    fontWeight: "bold",
+  },
+});
 
 export default AppText;
