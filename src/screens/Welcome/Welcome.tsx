@@ -4,7 +4,7 @@ import AppText from "../../components/AppText";
 import { Button } from "react-native-paper";
 import { StyleSheet, View, Image } from "react-native";
 
-const Welcome = (navigation: any) => {
+const Welcome = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -24,16 +24,16 @@ const Welcome = (navigation: any) => {
         <Button
           mode="contained"
           style={styles.blueButton}
-          onPress={() => console.log("hey")}
-          contentStyle={{ height: 40 }}
+          onPress={() => navigation.navigate("Register")}
+          contentStyle={{ height: 45 }}
         >
           Register
         </Button>
         <Button
           mode="contained"
           style={styles.greyButton}
-          onPress={() => console.log("hey")}
-          contentStyle={{ height: 40 }}
+          onPress={() => navigation.navigate("Login")}
+          contentStyle={{ height: 45 }}
         >
           Login
         </Button>

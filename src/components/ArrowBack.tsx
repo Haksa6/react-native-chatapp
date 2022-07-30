@@ -3,10 +3,16 @@ import { Appbar } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import theme from "../constants/Theme";
 
-const ArrowBack = () => {
+const ArrowBack = ({ navigation }: any) => {
   return (
     <Appbar style={styles.container}>
-      <Appbar.BackAction color={theme.colors.textPrimary} onPress={() => {}} />
+      <Appbar.BackAction
+        size={26}
+        color={theme.colors.textPrimary}
+        onPress={() => {
+          navigation?.goBack();
+        }}
+      />
     </Appbar>
   );
 };
@@ -17,6 +23,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     borderColor: theme.colors.backgroundPrimary,
     elevation: 0,
+    marginTop: 20,
   },
 });
 

@@ -7,7 +7,7 @@ import { Button } from "react-native-paper";
 import { TextInput } from "react-native-paper";
 import ArrowBack from "../../components/ArrowBack";
 
-const Login = () => {
+const Login = ({ navigation }: any) => {
   //Used to enable/disable password safe view
   const [flatTextSecureEntry, setFlatTextSecureEntry] = useState(true);
   const [usernameText, setUsernameText] = useState("");
@@ -15,7 +15,7 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <ArrowBack />
+      <ArrowBack navigation={navigation} />
 
       <AppText.Title style={{ fontWeight: "bold", marginVertical: 5 }}>
         Welcome back!
@@ -75,7 +75,7 @@ const Login = () => {
         mode="contained"
         style={styles.blueButton}
         onPress={() => console.log("hey")}
-        contentStyle={{ height: 40 }}
+        contentStyle={{ height: 45 }}
       >
         Login
       </Button>
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginTop: 20,
   },
   input: {
     backgroundColor: "#202225",
@@ -106,6 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.backgroundBlue,
     borderRadius: 5,
     width: "90%",
+    marginTop: 10,
   },
 });
 

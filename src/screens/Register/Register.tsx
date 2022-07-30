@@ -6,7 +6,7 @@ import AppText from "../../components/AppText";
 import ArrowBack from "../../components/ArrowBack";
 import { Button } from "react-native-paper";
 
-const Register = () => {
+const Register = ({ navigation }: any) => {
   //Used to enable/disable password safe view
   const [flatTextSecureEntry, setFlatTextSecureEntry] = useState(true);
   const [usernameText, setUsernameText] = useState("");
@@ -14,7 +14,7 @@ const Register = () => {
 
   return (
     <View style={styles.container}>
-      <ArrowBack />
+      <ArrowBack navigation={navigation} />
       <AppText.Title style={{ fontWeight: "bold", marginVertical: 15 }}>
         Register
       </AppText.Title>
@@ -72,9 +72,9 @@ const Register = () => {
         mode="contained"
         style={styles.blueButton}
         onPress={() => console.log("hey")}
-        contentStyle={{ height: 40 }}
+        contentStyle={{ height: 45 }}
       >
-        Login
+        Register
       </Button>
     </View>
   );
@@ -83,12 +83,11 @@ const Register = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.backgroundPrimary,
-    flex: 9,
+    flex: 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginTop: 20,
   },
   input: {
     backgroundColor: "#202225",
@@ -103,6 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.backgroundBlue,
     borderRadius: 5,
     width: "90%",
+    marginTop: 10,
   },
 });
 

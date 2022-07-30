@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import Welcome from "./src/screens/Welcome";
+import Welcome from "./src/screens/Welcome/Welcome";
 import theme from "./src/constants/Theme";
 import Constants from "expo-constants";
 import { Provider } from "react-native-paper";
