@@ -4,7 +4,7 @@ import { Text as NativeText, StyleSheet, TextProps } from "react-native";
 import theme from "../constants/Theme";
 
 interface AppTextProps extends TextProps {
-  children: string;
+  children?: string;
 }
 
 const AppText = ({ style, ...props }: AppTextProps) => (
@@ -19,6 +19,9 @@ AppText.Subtitle = ({ style, ...props }: AppTextProps) => (
 );
 AppText.Subtext = ({ style, ...props }: AppTextProps) => (
   <AppText {...props} style={[styles.colorTextSecondary, style]} />
+);
+AppText.Error = ({ style, ...props }: AppTextProps) => (
+  <AppText {...props} style={[styles.error, style]} />
 );
 
 const styles = StyleSheet.create({
@@ -37,6 +40,9 @@ const styles = StyleSheet.create({
   fontSizeSubHeading: {
     fontSize: theme.fontSizes.subheading,
     fontWeight: "bold",
+  },
+  error: {
+    color: theme.colors.error,
   },
 });
 
