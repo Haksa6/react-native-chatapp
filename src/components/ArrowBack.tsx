@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     borderColor: theme.colors.backgroundPrimary,
     elevation: 0,
-    marginTop: 20,
   },
 });
 

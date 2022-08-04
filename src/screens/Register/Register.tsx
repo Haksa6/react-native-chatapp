@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import theme from "../../constants/Theme";
 import { TextInput } from "react-native-paper";
 import AppText from "../../components/AppText";
@@ -7,6 +7,7 @@ import ArrowBack from "../../components/ArrowBack";
 import { Button } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { styles } from "./styles";
 
 // Required settings for the form fields
 const validationSchema = yup.object().shape({
@@ -27,7 +28,7 @@ const initialValues = {
 const Register = ({ navigation }: any) => {
   // Used to enable/disable password safe view
   const [flatTextSecureEntry, setFlatTextSecureEntry] = useState(true);
-  const login = () => navigation.navigate("Home");
+  const login = () => navigation.navigate("Root");
 
   return (
     <Formik
@@ -114,6 +115,7 @@ const Register = ({ navigation }: any) => {
             style={styles.blueButton}
             onPress={handleSubmit}
             contentStyle={{ height: 45 }}
+            testID="registerButton"
           >
             Register
           </Button>
@@ -122,31 +124,5 @@ const Register = ({ navigation }: any) => {
     </Formik>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.colors.backgroundPrimary,
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  input: {
-    backgroundColor: "#202225",
-    marginVertical: 7,
-    borderRadius: 5,
-    padding: 2,
-    color: theme.colors.textPrimary,
-    fontSize: 17,
-    width: "90%",
-  },
-  blueButton: {
-    backgroundColor: theme.colors.backgroundBlue,
-    borderRadius: 5,
-    width: "90%",
-    marginTop: 10,
-  },
-});
 
 export default Register;

@@ -7,6 +7,7 @@ const theme = {
     textSecondary: "#B9BBBE",
     backgroundPrimary: "#424549",
     backgroundSecondary: "#282b30",
+    backgroundThird: "#36393e",
     backgroundBlue: "#6665d2",
     backgroundGrey: "#99AAB5",
     error: "#FF0000",

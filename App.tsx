@@ -1,23 +1,21 @@
-import { StyleSheet, View } from "react-native";
+import "react-native-gesture-handler";
+import { StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import Welcome from "./src/screens/Welcome/Welcome";
 import theme from "./src/constants/Theme";
-import Constants from "expo-constants";
 import { Provider } from "react-native-paper";
-import AppNavigator from "./src/AppNavigator";
-
-const statusbarHeight = Constants.statusBarHeight;
+import AppNavigator from "./src/navigation/AppNavigator";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
   return (
     <Provider>
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <StatusBar
           backgroundColor={theme.colors.backgroundSecondary}
           style="light"
         />
         <AppNavigator />
-      </View>
+      </SafeAreaView>
     </Provider>
   );
 }
@@ -26,6 +24,5 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.backgroundPrimary,
     flex: 1,
-    paddingTop: statusbarHeight,
   },
 });
