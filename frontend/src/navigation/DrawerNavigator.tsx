@@ -1,9 +1,8 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import React from "react";
 import Home from "../screens/Home/Home";
-import { View, FlatList } from "react-native";
+import { View } from "react-native";
 import { Appbar, Avatar, Button, IconButton } from "react-native-paper";
-import AppText from "../components/AppText";
 import theme from "../constants/Theme";
 
 const Drawer = createDrawerNavigator();
