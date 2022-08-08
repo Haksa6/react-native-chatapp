@@ -2,7 +2,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import React from "react";
 import Home from "../screens/Home/Home";
 import { View, FlatList } from "react-native";
-import { Appbar, Avatar, Button } from "react-native-paper";
+import { Appbar, Avatar, Button, IconButton } from "react-native-paper";
 import AppText from "../components/AppText";
 import theme from "../constants/Theme";
 
@@ -28,10 +28,11 @@ function DrawerContent() {
       >
         <Avatar.Text size={36} label="U" style={{ marginLeft: 6 }} />
         <Appbar.Content title={"Username"} />
-        <Avatar.Icon
+        <IconButton
           icon="logout"
-          size={36}
-          theme={{ colors: { primary: "transparent" } }}
+          size={26}
+          color={theme.colors.textPrimary}
+          onPress={() => {}}
         />
       </Appbar>
       <View style={{ display: "flex", alignItems: "center" }}>

@@ -16,4 +16,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  input: {
+    backgroundColor: "#202225",
+    marginVertical: 7,
+    borderRadius: 5,
+    color: theme.colors.textPrimary,
+    fontSize: 17,
+    width: "95%",
+  },
 });
