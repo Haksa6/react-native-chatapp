@@ -1,9 +1,6 @@
-import { users } from "../../fakedata";
+import merge from "lodash.merge";
 
-export const resolvers = {
-  Query: {
-    allUsers: () => users,
-    findUser: (root: any, args: any) =>
-      users.find(p => p.username === args.username),
-  },
-};
+import messages from "./messages";
+import users from "./users";
+
+export const resolvers = merge(users, messages);

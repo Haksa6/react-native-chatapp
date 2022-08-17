@@ -1,17 +1,17 @@
-export let users = [
+export let messages = [
   {
-    username: "Weeti",
-    password: "123",
-    id: "1",
+    senderName: "admin",
+    text: "Hey miten menee?",
+    date: new Date().toISOString(),
   },
   {
-    username: "Kalle",
-    password: "abc",
-    id: "2",
+    senderName: "admin",
+    text: "How you been?",
+    date: new Date().toISOString(),
   },
   {
-    username: "Suppilo",
-    password: "000",
-    id: "3",
+    senderName: "admin",
+    text: "Comment ca va?",
+    date: new Date().toISOString(),
   },
 ];
