@@ -1,13 +1,16 @@
 import { validateAuthToken } from "./jwt";
+import User from "../models/userSchema";
 
 export const setContext = async ({ req }: any) => {
-  let token = req ? req.headers.authorization : null;
+  let auth = req ? req.headers.authorization : null;
 
-  if (token && typeof token === "string") {
+  if (auth && typeof auth === "string") {
     const authenticationScheme = "bearer ";
-    if (token && token.toLowerCase().startsWith(authenticationScheme)) {
-      token = token.slice(authenticationScheme.length, token.length);
-      const currentUser = await validateAuthToken(token);
+    if (auth.toLowerCase().startsWith(authenticationScheme)) {
+      auth = auth.slice(authenticationScheme.length, auth.length);
+      const decodedToken = await validateAuthToken(auth);
+      const currentUser = await User.findOne({ decodedToken });
+
       return { currentUser };
     }
   }

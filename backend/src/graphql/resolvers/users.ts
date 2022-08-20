@@ -1,22 +1,22 @@
 import User from "../../models/userSchema";
 import { UserInputError } from "apollo-server-express";
-import { TypeUser } from "../../types/user";
+import { TypeUser } from "../../types/types";
 import { createAuthToken } from "../../utils/jwt";
 // import { messages } from "../../fakedata";
 import bcrypt from "bcrypt";
 
 export default {
   Query: {
-    allUsers: async () => {
-      return await User.find({});
-    },
     findUser: async (root: undefined, args: TypeUser) => {
       return await User.findOne({ username: args.username });
+    },
+    //returns the user that is logged in from context
+    currentUser: async (root: undefined, args: undefined, context: any) => {
+      return await context.currentUser;
     },
   },
   Mutation: {
     registerUser: async (root: undefined, args: TypeUser) => {
-      console.log(args.username, args.password);
       if (!args.username || !args.password) {
         throw new UserInputError("Data provided is not valid");
       }
@@ -49,6 +49,7 @@ export default {
         throw new UserInputError("User not found");
       }
 
+      //Compare the entered password with the one in the database
       const correctPassword = await bcrypt.compare(
         args.password,
         loginUser.password,

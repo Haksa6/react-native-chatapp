@@ -3,7 +3,7 @@ import { securityVariablesConfig } from "../config";
 
 //Creates te
 export const createAuthToken = (username: string) => {
-  return jwt.sign({ username }, securityVariablesConfig.secret, {
+  return jwt.sign({ username: username }, securityVariablesConfig.secret, {
     expiresIn: securityVariablesConfig.timeExpiration,
   });
 };

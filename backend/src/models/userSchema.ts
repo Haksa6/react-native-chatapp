@@ -15,9 +15,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 5,
   },
-  token: {
-    type: String,
-  },
+  channels: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Channels",
+    },
+  ],
 });
 
 //Hash password before being saved to database

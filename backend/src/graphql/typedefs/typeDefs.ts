@@ -2,30 +2,50 @@ import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
   type User {
-    id: ID!
+    _id: ID!
     username: String!
     password: String!
-  }
-  type Token {
-    token: String!
+    channels: [String]
   }
 
   type Message {
-    id: ID!
     senderName: String!
     text: String!
     date: String!
   }
 
+  type Channel {
+    _id: ID!
+    title: String!
+    users: [String!]!
+    chats: [Message]
+  }
+
+  type Token {
+    token: String!
+  }
+
   type Query {
-    allUsers: [User!]!
-    findUser(username: String!): User!
-    allMessages: [Message!]!
+    findUser(username: String!): User
+    currentUser: User
+    channels: [Channel]
+    channel(channelID: String!): Channel
   }
 
   type Mutation {
-    sendMessage(text: String!, username: String!): Message!
     registerUser(username: String!, password: String!): Token
     loginUser(username: String!, password: String!): Token
+    createChannel(title: String!, users: [String]!): Channel
+    addUserToChannel(username: String!, channelID: ID!): Channel
+    sendMessage(
+      channelID: ID!
+      senderName: String!
+      text: String!
+      date: String!
+    ): Message
+  }
+
+  type Subscription {
+    newChatSubscription(channelID: ID!): Message
   }
 `;
