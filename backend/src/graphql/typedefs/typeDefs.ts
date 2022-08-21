@@ -46,6 +46,6 @@ export const typeDefs = gql`
   }
 
   type Subscription {
-    newChatSubscription(channelID: ID!): Message
+    newMessageSubscription(channelID: ID!): Message
   }
 `;

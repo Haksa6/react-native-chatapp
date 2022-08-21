@@ -1,8 +1,11 @@
 import { TypeChannel, TypeMessage } from "../../types/types";
 import Channel from "../../models/channelSchema";
 import { ApolloError } from "apollo-server-express";
+import { PubSub } from "graphql-subscriptions";
 import User from "../../models/userSchema";
 // import mongoose from "mongoose";
+
+const pubsub = new PubSub();
 
 export default {
   Query: {},
@@ -29,21 +32,25 @@ export default {
         { new: true },
       );
 
-      console.log(args.channelID);
-
-      const newChat: any = {
+      const newMessage: any = {
         senderName: args.senderName,
       };
 
       if (channel === null) {
         throw new ApolloError("Channel was not found!");
       } else {
-        newChat["senderName"] = args.senderName;
-        newChat["date"] = args.date;
-        newChat["text"] = args.text;
+        newMessage["senderName"] = args.senderName;
+        newMessage["date"] = args.date;
+        newMessage["text"] = args.text;
       }
 
-      return newChat;
+      pubsub.publish("MESSAGE_SENT", { newMessageSubscription: newMessage });
+      return newMessage;
+    },
+  },
+  Subscription: {
+    newMessageSubscription: {
+      subscribe: () => pubsub.asyncIterator(["MESSAGE_SENT"]),
     },
   },
 };
