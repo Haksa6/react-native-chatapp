@@ -3,9 +3,9 @@ import { View } from "react-native";
 import AppText from "../../components/AppText";
 import theme from "../../constants/Theme";
 import { Formik } from "formik";
-import { Button } from "react-native-paper";
+import { Button, Appbar } from "react-native-paper";
 import { TextInput } from "react-native-paper";
-import ArrowBack from "../../components/ArrowBack";
+
 import * as yup from "yup";
 import { styles } from "./styles";
 
@@ -34,7 +34,15 @@ const Login = ({ navigation }: any) => {
     >
       {({ handleSubmit, handleChange, errors, setFieldTouched, touched }) => (
         <View style={styles.container}>
-          <ArrowBack navigation={navigation} />
+          <Appbar style={styles.container}>
+            <Appbar.BackAction
+              size={26}
+              color={theme.colors.textPrimary}
+              onPress={() => {
+                navigation?.goBack();
+              }}
+            />
+          </Appbar>
 
           <AppText.Title style={{ fontWeight: "bold", marginVertical: 5 }}>
             Welcome back!

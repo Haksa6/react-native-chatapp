@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../screens/Login/Login";
 import Welcome from "../screens/Welcome/Welcome";
 import Register from "../screens/Register/Register";
+import NewChat from "../screens/NewChat/NewChat";
 import DrawerNavigator from "./DrawerNavigator";
 
 const { Navigator, Screen } = createNativeStackNavigator();
@@ -15,6 +16,7 @@ const AppNavigator = () => (
       <Screen name="Register" component={Register} />
       <Screen name="Login" component={Login} />
       <Screen name="Root" component={DrawerNavigator} />
+      <Screen name="NewChat" component={NewChat} />
     </Navigator>
   </NavigationContainer>
 );
