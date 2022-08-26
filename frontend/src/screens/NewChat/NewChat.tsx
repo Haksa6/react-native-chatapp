@@ -2,74 +2,10 @@ import { View, FlatList } from "react-native";
 import { styles } from "./styles";
 import { Appbar, Searchbar, Avatar } from "react-native-paper";
 import { useState } from "react";
+import { useQuery } from "@apollo/client";
 import AppText from "../../components/AppText";
 import theme from "../../constants/Theme";
-
-const DATA = [
-  {
-    username: "CougaCougaCougaCougaCougaCouga",
-  },
-  {
-    username: "Weeti",
-  },
-  {
-    username: "Jks",
-  },
-  {
-    username: "Couga",
-  },
-  {
-    username: "Weeti",
-  },
-  {
-    username: "Jks",
-  },
-  {
-    username: "Couga",
-  },
-  {
-    username: "Weeti",
-  },
-  {
-    username: "Jks",
-  },
-  {
-    username: "Couga",
-  },
-  {
-    username: "Weeti",
-  },
-  {
-    username: "Jks",
-  },
-  {
-    username: "Couga",
-  },
-  {
-    username: "Weeti",
-  },
-  {
-    username: "Jks",
-  },
-  {
-    username: "Couga",
-  },
-  {
-    username: "Weeti",
-  },
-  {
-    username: "Jks",
-  },
-  {
-    username: "Couga",
-  },
-  {
-    username: "Weeti",
-  },
-  {
-    username: "Jks",
-  },
-];
+import GET_ALL_USERS from "../../queries/getAllUsers";
 
 const User = ({ username }: any) => {
   return (
@@ -83,7 +19,7 @@ const User = ({ username }: any) => {
         justifyContent: "flex-start",
       }}
     >
-      <Avatar.Text label={username.username[0]} size={34} />
+      <Avatar.Text label={username.username[0].toUpperCase()} size={34} />
       <AppText.Subtitle style={{ fontSize: 16, marginLeft: 10 }}>
         {username.username}
       </AppText.Subtitle>
@@ -93,8 +29,12 @@ const User = ({ username }: any) => {
 
 const NewChat = ({ navigation }: any) => {
   const [searchQuery, setSearchQuery] = useState("");
-
   const onChangeSearch = (query: string) => setSearchQuery(query);
+  const result = useQuery(GET_ALL_USERS);
+
+  const filteredResult = result.data.getAllUsers.filter((u: any) =>
+    u.username.includes(searchQuery),
+  );
 
   return (
     <View style={styles.container}>
@@ -120,7 +60,7 @@ const NewChat = ({ navigation }: any) => {
         }}
       />
       <FlatList
-        data={DATA}
+        data={filteredResult}
         renderItem={({ item }) => <User username={item} />}
       />
     </View>

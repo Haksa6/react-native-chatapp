@@ -7,6 +7,9 @@ import bcrypt from "bcrypt";
 
 export default {
   Query: {
+    getAllUsers: async () => {
+      return await User.find({});
+    },
     findUser: async (root: undefined, args: TypeUser) => {
       return await User.findOne({ username: args.username });
     },

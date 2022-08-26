@@ -26,6 +26,7 @@ export const typeDefs = gql`
   }
 
   type Query {
+    getAllUsers: [User]
     findUser(username: String!): User
     currentUser: User
     channels: [Channel]
