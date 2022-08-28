@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import AppText from "../../components/AppText";
 import theme from "../../constants/Theme";
-import GET_ALL_USERS from "../../queries/getAllUsers";
+import { GET_ALL_USERS } from "../../graphql/queries";
 
 const User = ({ username }: any) => {
   return (
@@ -28,13 +28,21 @@ const User = ({ username }: any) => {
 };
 
 const NewChat = ({ navigation }: any) => {
+  //Searhbar text
   const [searchQuery, setSearchQuery] = useState("");
   const onChangeSearch = (query: string) => setSearchQuery(query);
-  const result = useQuery(GET_ALL_USERS);
 
-  const filteredResult = result.data.getAllUsers.filter((u: any) =>
-    u.username.includes(searchQuery),
-  );
+  //Get users list from the backend
+  const result = useQuery(GET_ALL_USERS, { fetchPolicy: "cache-and-network" });
+  //Filter results based on the searchbar
+  let filteredResult = null;
+
+  //Load null if still loading the users
+  if (!result.loading) {
+    filteredResult = result.data.getAllUsers.filter((u: any) =>
+      u.username.includes(searchQuery),
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -59,10 +67,12 @@ const NewChat = ({ navigation }: any) => {
           },
         }}
       />
-      <FlatList
-        data={filteredResult}
-        renderItem={({ item }) => <User username={item} />}
-      />
+      {result.loading ? null : (
+        <FlatList
+          data={filteredResult}
+          renderItem={({ item }) => <User username={item} />}
+        />
+      )}
     </View>
   );
 };

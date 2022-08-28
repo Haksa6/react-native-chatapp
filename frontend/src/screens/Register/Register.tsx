@@ -28,12 +28,12 @@ const initialValues = {
 const Register = ({ navigation }: any) => {
   // Used to enable/disable password safe view
   const [flatTextSecureEntry, setFlatTextSecureEntry] = useState(true);
-  const login = () => navigation.navigate("Root");
+  const loginFunction = () => navigation.navigate("Root");
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={login}
+      onSubmit={loginFunction}
       validationSchema={validationSchema}
     >
       {({ handleSubmit, handleChange, errors, setFieldTouched, touched }) => (

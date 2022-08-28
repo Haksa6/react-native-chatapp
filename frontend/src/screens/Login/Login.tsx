@@ -5,9 +5,9 @@ import theme from "../../constants/Theme";
 import { Formik } from "formik";
 import { Button, Appbar } from "react-native-paper";
 import { TextInput } from "react-native-paper";
-
 import * as yup from "yup";
 import { styles } from "./styles";
+import useLogin from "../../hooks/useLogin";
 
 // Required settings for the form fields
 const validationSchema = yup.object().shape({
@@ -24,23 +24,34 @@ const initialValues = {
 const Login = ({ navigation }: any) => {
   //Used to enable/disable password safe view
   const [flatTextSecureEntry, setFlatTextSecureEntry] = useState(true);
-  const login = () => navigation.navigate("Root");
+
+  const [login] = useLogin();
+  const onSubmit = async (values: any) => {
+    try {
+      const { username, password } = values;
+      await login(username, password);
+      navigation.navigate("Root");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={login}
+      onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
       {({ handleSubmit, handleChange, errors, setFieldTouched, touched }) => (
         <View style={styles.container}>
-          <Appbar style={styles.container}>
+          <Appbar style={styles.appbar}>
             <Appbar.BackAction
               size={26}
               color={theme.colors.textPrimary}
               onPress={() => {
                 navigation?.goBack();
               }}
+              style={{ elevation: 0 }}
             />
           </Appbar>
 

@@ -25,4 +25,10 @@ export const styles = StyleSheet.create({
     width: "90%",
     marginTop: 10,
   },
+  appbar: {
+    backgroundColor: theme.colors.backgroundPrimary,
+    alignSelf: "flex-start",
+    borderColor: theme.colors.backgroundPrimary,
+    elevation: 0,
+  },
 });
