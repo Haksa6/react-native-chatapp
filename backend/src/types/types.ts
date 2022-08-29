@@ -6,7 +6,7 @@ export type TypeUser = {
 
 export type TypeChannel = {
   title: string;
-  users: Array<string>;
+  user: string;
 };
 
 export type TypeMessage = {

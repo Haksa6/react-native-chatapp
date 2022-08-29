@@ -20,3 +20,14 @@ export const FIND_USER = gql`
     }
   }
 `;
+
+export const CURRENT_USER = gql`
+  query CurrentUser {
+    currentUser {
+      username
+      password
+      channels
+      _id
+    }
+  }
+`;

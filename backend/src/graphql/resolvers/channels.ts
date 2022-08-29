@@ -1,4 +1,4 @@
-import { TypeChannel, TypeMessage } from "../../types/types";
+import { TypeMessage } from "../../types/types";
 import Channel from "../../models/channelSchema";
 import { ApolloError } from "apollo-server-express";
 import { PubSub } from "graphql-subscriptions";
@@ -10,13 +10,24 @@ const pubsub = new PubSub();
 export default {
   Query: {},
   Mutation: {
-    createChannel: async (root: undefined, args: TypeChannel) => {
-      let newChannel = await new Channel({ ...args }).save();
+    createChannel: async (
+      root: undefined,
+      args: { title: string },
+      context: any,
+    ) => {
+      if (!context.currentUser) {
+        throw new ApolloError("Error at finding the current user");
+      }
+
+      let newChannel = await new Channel({
+        title: args.title,
+        users: context.currentUser.username,
+      }).save();
 
       //context.currentUser
-      console.log(args.users[0]);
+      console.log(context.currentUser.username);
       await User.findOneAndUpdate(
-        { username: args.users[0] },
+        { username: context.currentUser.username },
         { $push: { channels: newChannel._id } },
         { new: true },
       );

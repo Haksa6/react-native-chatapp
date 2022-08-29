@@ -10,17 +10,34 @@ import {
 } from "react-native-paper";
 import AppText from "./AppText";
 import theme from "../constants/Theme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useApolloClient } from "@apollo/client";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 const DrawerContent = ({ navigation }: any) => {
   const [modalVisibility, setModalVisibility] = useState(false);
   const showModal = () => setModalVisibility(true);
   const hideModal = () => setModalVisibility(false);
+  const apolloClient = useApolloClient();
+
+  const { currentUser } = useCurrentUser();
+  console.log(currentUser);
+
+  const logOut = async () => {
+    await AsyncStorage.removeItem("token");
+    apolloClient.resetStore();
+    navigation.navigate("Welcome");
+  };
 
   return (
     <View style={styles.container}>
       <Appbar style={styles.appbar}>
-        <Avatar.Text size={36} label="U" style={{ marginLeft: 6 }} />
-        <Appbar.Content title={"Username"} />
+        <Avatar.Text
+          size={36}
+          label={currentUser?.username[0].toUpperCase()}
+          style={{ marginLeft: 6 }}
+        />
+        <Appbar.Content title={currentUser?.username} />
         <IconButton
           icon="logout"
           size={26}
@@ -64,7 +81,7 @@ const DrawerContent = ({ navigation }: any) => {
                 uppercase={false}
                 mode="contained"
                 style={{ backgroundColor: theme.colors.error }}
-                onPress={() => {}}
+                onPress={logOut}
               >
                 Log Out
               </Button>
