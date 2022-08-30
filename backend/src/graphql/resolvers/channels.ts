@@ -34,6 +34,35 @@ export default {
 
       return newChannel;
     },
+    addUserToChannel: async (root: undefined, args: any) => {
+      const { username, channelID } = args;
+
+      const user = await User.findOne({ username });
+      console.log(user);
+
+      //if user is found add the user on the channels user list
+      if (user !== null) {
+        const channel = await Channel.findByIdAndUpdate(
+          channelID,
+          //addToSet wont push if not unique
+          { $addToSet: { users: username } },
+          { new: true },
+        );
+        //if channel is found add the channel on users channel list
+        if (channel !== null) {
+          await User.findOneAndUpdate(
+            { username: username },
+            { $addToSet: { channels: channelID } },
+            { new: true },
+          );
+          return channel;
+        } else {
+          throw new ApolloError("Couldn't find the channel!");
+        }
+      } else {
+        throw new ApolloError("Couldn't find the user!");
+      }
+    },
     sendMessage: async (root: undefined, args: TypeMessage) => {
       const { senderName, date, text, channelID } = args;
 

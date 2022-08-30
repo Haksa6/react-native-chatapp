@@ -36,7 +36,7 @@ export const typeDefs = gql`
   type Mutation {
     registerUser(username: String!, password: String!): Token
     loginUser(username: String!, password: String!): Token
-    createChannel(title: String!, user: String!): Channel
+    createChannel(title: String!): Channel
     addUserToChannel(username: String!, channelID: ID!): Channel
     sendMessage(
       channelID: ID!
