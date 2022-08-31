@@ -1,11 +1,10 @@
-import { View, FlatList } from "react-native";
-import { styles } from "./styles";
+import { View, FlatList, StyleSheet } from "react-native";
 import { Appbar, Searchbar, Avatar } from "react-native-paper";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
-import AppText from "../../components/AppText";
-import theme from "../../constants/Theme";
-import { GET_ALL_USERS } from "../../graphql/queries";
+import AppText from "../components/AppText";
+import theme from "../constants/Theme";
+import { GET_ALL_USERS } from "../graphql/queries";
 
 const User = ({ username }: any) => {
   return (
@@ -27,7 +26,7 @@ const User = ({ username }: any) => {
   );
 };
 
-const NewChat = ({ navigation }: any) => {
+const AddNewUser = ({ navigation }: any) => {
   //Searhbar text
   const [searchQuery, setSearchQuery] = useState("");
   const onChangeSearch = (query: string) => setSearchQuery(query);
@@ -52,7 +51,7 @@ const NewChat = ({ navigation }: any) => {
             navigation?.goBack();
           }}
         />
-        <Appbar.Content title="Start Chatting" />
+        <Appbar.Content title="Invite people" />
       </Appbar>
       <Searchbar
         placeholder="Search"
@@ -77,4 +76,23 @@ const NewChat = ({ navigation }: any) => {
   );
 };
 
-export default NewChat;
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: theme.colors.backgroundPrimary,
+    flex: 1,
+  },
+  appbar: {
+    backgroundColor: theme.colors.backgroundThird,
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  searchbar: {
+    width: "95%",
+    margin: 10,
+    backgroundColor: theme.colors.backgroundGrey,
+  },
+});
+
+export default AddNewUser;

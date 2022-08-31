@@ -6,10 +6,10 @@ import {
   Text,
   Platform,
   TextInput,
+  StyleSheet,
 } from "react-native";
-import { styles } from "./styles";
 import { Appbar, IconButton } from "react-native-paper";
-import theme from "../../constants/Theme";
+import theme from "../constants/Theme";
 
 const DATA = [
   {
@@ -139,7 +139,14 @@ const Home = ({ navigation }: any) => {
             navigation.openDrawer();
           }}
         />
-        <Appbar.Content title={"e"} />
+        <Appbar.Content title={"sdasd"} />
+        <IconButton
+          icon={"account-plus"}
+          color={theme.colors.textPrimary}
+          onPress={() => {
+            navigation.navigate("AddNewUser");
+          }}
+        ></IconButton>
       </Appbar>
       <FlatList
         data={DATA}
@@ -150,5 +157,28 @@ const Home = ({ navigation }: any) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: theme.colors.backgroundPrimary,
+    flex: 1,
+    display: "flex",
+  },
+  appbar: {
+    backgroundColor: theme.colors.backgroundThird,
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  input: {
+    backgroundColor: "#202225",
+    marginVertical: 7,
+    borderRadius: 5,
+    color: theme.colors.textPrimary,
+    fontSize: 17,
+    width: "95%",
+  },
+});
 
 export default Home;

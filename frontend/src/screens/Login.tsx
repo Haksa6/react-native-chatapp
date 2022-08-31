@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { View } from "react-native";
-import AppText from "../../components/AppText";
-import theme from "../../constants/Theme";
+import { View, StyleSheet } from "react-native";
+import AppText from "../components/AppText";
+import theme from "../constants/Theme";
 import { Formik } from "formik";
 import { Button, Appbar } from "react-native-paper";
 import { TextInput } from "react-native-paper";
 import * as yup from "yup";
-import { styles } from "./styles";
-import useLogin from "../../hooks/useLogin";
+import useLogin from "../hooks/useLogin";
 
 // Required settings for the form fields
 const validationSchema = yup.object().shape({
@@ -139,5 +138,37 @@ const Login = ({ navigation }: any) => {
     </Formik>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: theme.colors.backgroundPrimary,
+    flex: 9,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  input: {
+    backgroundColor: "#202225",
+    marginVertical: 7,
+    borderRadius: 5,
+    padding: 2,
+    color: theme.colors.textPrimary,
+    fontSize: 17,
+    width: "90%",
+  },
+  blueButton: {
+    backgroundColor: theme.colors.backgroundBlue,
+    borderRadius: 5,
+    width: "90%",
+    marginTop: 10,
+  },
+  appbar: {
+    backgroundColor: theme.colors.backgroundPrimary,
+    alignSelf: "flex-start",
+    borderColor: theme.colors.backgroundPrimary,
+    elevation: 0,
+  },
+});
 
 export default Login;

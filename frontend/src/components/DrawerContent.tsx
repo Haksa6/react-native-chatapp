@@ -49,7 +49,7 @@ const DrawerContent = ({ navigation }: any) => {
         <Button
           mode="contained"
           style={styles.newChatButton}
-          onPress={() => navigation.navigate("NewChat")}
+          onPress={() => navigation.navigate("NewChannel")}
           contentStyle={{ height: 45 }}
         >
           New chat

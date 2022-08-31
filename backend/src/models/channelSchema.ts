@@ -4,6 +4,7 @@ const channelSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
+    minlength: 1,
   },
   users: {
     type: [String],

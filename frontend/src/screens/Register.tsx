@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { View } from "react-native";
-import theme from "../../constants/Theme";
+import { View, StyleSheet } from "react-native";
+import theme from "../constants/Theme";
 import { TextInput } from "react-native-paper";
-import AppText from "../../components/AppText";
-import ArrowBack from "../../components/ArrowBack";
+import AppText from "../components/AppText";
+import ArrowBack from "../components/ArrowBack";
 import { Button } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { styles } from "./styles";
 
 // Required settings for the form fields
 const validationSchema = yup.object().shape({
@@ -124,5 +123,31 @@ const Register = ({ navigation }: any) => {
     </Formik>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: theme.colors.backgroundPrimary,
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  input: {
+    backgroundColor: "#202225",
+    marginVertical: 7,
+    borderRadius: 5,
+    padding: 2,
+    color: theme.colors.textPrimary,
+    fontSize: 17,
+    width: "90%",
+  },
+  blueButton: {
+    backgroundColor: theme.colors.backgroundBlue,
+    borderRadius: 5,
+    width: "90%",
+    marginTop: 10,
+  },
+});
 
 export default Register;

@@ -1,5 +1,5 @@
 import React from "react";
-import Register from "../Register/Register";
+import Register from "../Register";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 
 describe("Register screen", () => {
