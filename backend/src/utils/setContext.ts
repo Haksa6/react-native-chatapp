@@ -9,7 +9,10 @@ export const setContext = async ({ req }: any) => {
     if (auth.toLowerCase().startsWith(authenticationScheme)) {
       auth = auth.slice(authenticationScheme.length, auth.length);
       const decodedToken = await validateAuthToken(auth);
-      const currentUser = await User.findOne({ decodedToken });
+      //Find the user with decoded token users attribute which is the first one in the returned object
+      const currentUser = await User.findOne({
+        username: Object.values(decodedToken)[0],
+      });
 
       return { currentUser };
     }

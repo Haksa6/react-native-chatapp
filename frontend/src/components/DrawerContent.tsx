@@ -21,6 +21,8 @@ const DrawerContent = ({ navigation }: any) => {
   const apolloClient = useApolloClient();
 
   const { currentUser } = useCurrentUser();
+  console.log(currentUser);
+  console.log(AsyncStorage.getItem("token"));
 
   const logOut = async () => {
     await AsyncStorage.removeItem("token");
