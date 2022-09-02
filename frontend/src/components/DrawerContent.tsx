@@ -21,11 +21,11 @@ const DrawerContent = ({ navigation }: any) => {
   const apolloClient = useApolloClient();
 
   const { currentUser } = useCurrentUser();
-  console.log(currentUser);
 
   const logOut = async () => {
     await AsyncStorage.removeItem("token");
     apolloClient.resetStore();
+    setModalVisibility(false);
     navigation.navigate("Welcome");
   };
 
@@ -52,7 +52,7 @@ const DrawerContent = ({ navigation }: any) => {
           onPress={() => navigation.navigate("NewChannel")}
           contentStyle={{ height: 45 }}
         >
-          New chat
+          New channel
         </Button>
         <Portal>
           <Modal

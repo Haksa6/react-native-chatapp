@@ -7,6 +7,9 @@ import ArrowBack from "../components/ArrowBack";
 import { Button } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useMutation } from "@apollo/client";
+import { REGISTER_USER } from "../graphql/mutations";
+import useLogin from "../hooks/useLogin";
 
 // Required settings for the form fields
 const validationSchema = yup.object().shape({
@@ -27,12 +30,24 @@ const initialValues = {
 const Register = ({ navigation }: any) => {
   // Used to enable/disable password safe view
   const [flatTextSecureEntry, setFlatTextSecureEntry] = useState(true);
-  const loginFunction = () => navigation.navigate("Root");
+  const [register] = useMutation(REGISTER_USER);
+  const [login] = useLogin();
+
+  const onSubmit = async (values: any) => {
+    try {
+      const { username, password } = values;
+      await register({ variables: { username: username, password: password } });
+      await login(username, password);
+      navigation.navigate("Root");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={loginFunction}
+      onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
       {({ handleSubmit, handleChange, errors, setFieldTouched, touched }) => (
