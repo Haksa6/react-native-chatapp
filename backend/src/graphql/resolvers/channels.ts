@@ -9,6 +9,9 @@ const pubsub = new PubSub();
 
 export default {
   Query: {
+    getAllChannels: async () => {
+      return await Channel.find({});
+    },
     getChannelData: async (root: undefined, args: { channelID: string }) => {
       return await Channel.findById(args.channelID);
     },

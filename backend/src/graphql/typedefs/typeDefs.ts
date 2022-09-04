@@ -31,6 +31,7 @@ export const typeDefs = gql`
     currentUser: User
     getChannelData(channelID: String!): Channel
     getUsersChannels: [Channel]
+    getAllChannels: [Channel]
   }
 
   type Mutation {

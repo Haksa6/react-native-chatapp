@@ -3,81 +3,23 @@ import {
   View,
   KeyboardAvoidingView,
   FlatList,
-  Text,
   Platform,
   TextInput,
   StyleSheet,
 } from "react-native";
 import { Appbar, IconButton } from "react-native-paper";
+import AppText from "../components/AppText";
 import theme from "../constants/Theme";
+import ChatMessage from "../components/ChatMessage";
+import { useQuery } from "@apollo/client";
+import { GET_USERS_CHANNELS } from "../graphql/queries";
 
 const DATA = [
-  {
-    message: "First Item",
-  },
-  {
-    message: "Second Item",
-  },
-  {
-    message: "Third Item",
-  },
-  {
-    message: "First Item",
-  },
-  {
-    message:
-      "SSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond ItemSecond Itemv",
-  },
-  {
-    message: "First Item",
-  },
-  {
-    message: "Second Item",
-  },
-  {
-    message: "Third Item",
-  },
-  {
-    message: "First Item",
-  },
-  {
-    message: "Second Item",
-  },
-  {
-    message: "Second Item",
-  },
-  {
-    message: "Third Item",
-  },
-  {
-    message: "First Item",
-  },
-  {
-    message: "Second Item",
-  },
-  {
-    message: "Second Item",
-  },
-  {
-    message: "Third Item",
-  },
-  {
-    message: "First Item",
-  },
   {
     message: "Second Item",
   },
 ];
 
-const ChatMessage = ({ message }: any) => {
-  return (
-    <View style={{ padding: 5 }}>
-      <View style={{ borderRadius: 5, padding: 10 }}>
-        <Text style={{ color: "white" }}> {message.message}</Text>
-      </View>
-    </View>
-  );
-};
 const InputBox = ({}) => {
   return (
     <KeyboardAvoidingView
@@ -129,6 +71,14 @@ const InputBox = ({}) => {
 };
 
 const Home = ({ navigation }: any) => {
+  const result = useQuery(GET_USERS_CHANNELS, {
+    fetchPolicy: "cache-and-network",
+  });
+  if (result.loading) {
+    return <></>;
+  }
+  const dataChannels = result.data?.getUsersChannels;
+
   return (
     <View style={styles.container}>
       <Appbar style={styles.appbar}>
@@ -139,21 +89,35 @@ const Home = ({ navigation }: any) => {
             navigation.openDrawer();
           }}
         />
-        <Appbar.Content title={"sdasd"} />
-        <IconButton
-          icon={"account-plus"}
-          color={theme.colors.textPrimary}
-          onPress={() => {
-            navigation.navigate("AddNewUser");
-          }}
-        ></IconButton>
+        {dataChannels.length !== 0 ? (
+          <>
+            <Appbar.Content title={"sdasd"} />
+            <IconButton
+              icon={"account-plus"}
+              color={theme.colors.textPrimary}
+              onPress={() => {
+                navigation.navigate("AddNewUser");
+              }}
+            ></IconButton>
+          </>
+        ) : null}
       </Appbar>
-      <FlatList
-        data={DATA}
-        renderItem={({ item }) => <ChatMessage message={item} />}
-        inverted
-      />
-      <InputBox />
+      {dataChannels.length !== 0 ? (
+        <>
+          <FlatList
+            data={DATA}
+            renderItem={({ item }) => <ChatMessage message={item} />}
+            inverted
+          />
+          <InputBox />
+        </>
+      ) : (
+        <AppText.Subtitle
+          style={{ alignSelf: "center", marginTop: "50%", textAlign: "center" }}
+        >
+          Open the drawer and make your channel to start chatting
+        </AppText.Subtitle>
+      )}
     </View>
   );
 };

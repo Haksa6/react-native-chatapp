@@ -10,7 +10,6 @@ const createApolloClient = () => {
   const authLink = setContext(async (_, { headers }) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      console.log(token);
       return {
         headers: {
           ...headers,

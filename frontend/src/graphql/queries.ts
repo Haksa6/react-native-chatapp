@@ -31,3 +31,18 @@ export const CURRENT_USER = gql`
     }
   }
 `;
+
+export const GET_USERS_CHANNELS = gql`
+  query GetUsersChannels {
+    getUsersChannels {
+      _id
+      title
+      users
+      chats {
+        senderName
+        date
+        text
+      }
+    }
+  }
+`;

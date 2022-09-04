@@ -11,56 +11,9 @@ import {
 import AppText from "./AppText";
 import theme from "../constants/Theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client";
 import useCurrentUser from "../hooks/useCurrentUser";
-
-const data = [
-  {
-    title: "hejsan",
-  },
-  {
-    title: "hejsan",
-  },
-  {
-    title: "sssssssssssssssssssssssssssssssssss",
-  },
-  {
-    title: "hejsan",
-  },
-  {
-    title: "hejsan",
-  },
-  {
-    title: "sssssssssssssssssssssssssssssssssss",
-  },
-  {
-    title: "hejsan",
-  },
-  {
-    title: "hejsan",
-  },
-  {
-    title: "sssssssssssssssssssssssssssssssssss",
-  },
-  {
-    title: "hejsan",
-  },
-  {
-    title: "hejsan",
-  },
-  {
-    title: "sssssssssssssssssssssssssssssssssss",
-  },
-  {
-    title: "hejsan",
-  },
-  {
-    title: "hejsan",
-  },
-  {
-    title: "sssssssssssssssssssssssssssssssssss",
-  },
-];
+import { GET_USERS_CHANNELS } from "../graphql/queries";
 
 const ChannelItem = ({ title }: any) => {
   return (
@@ -90,7 +43,14 @@ const DrawerContent = ({ navigation }: any) => {
   const apolloClient = useApolloClient();
 
   const { currentUser } = useCurrentUser();
-  console.log(currentUser);
+  const result = useQuery(GET_USERS_CHANNELS, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  if (result.loading) {
+    return <></>;
+  }
+  const data = result.data?.getUsersChannels;
 
   const logOut = async () => {
     await AsyncStorage.removeItem("token");
@@ -129,12 +89,28 @@ const DrawerContent = ({ navigation }: any) => {
         >
           New channel
         </Button>
-        <FlatList
-          data={data}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: "15%", paddingTop: "10%" }}
-          renderItem={({ item }) => <ChannelItem title={item} />}
-        />
+
+        {data.length !== 0 ? (
+          <FlatList
+            data={data}
+            contentContainerStyle={{
+              paddingBottom: "15%",
+              paddingTop: "10%",
+            }}
+            renderItem={({ item }) => <ChannelItem title={item} />}
+          />
+        ) : (
+          <AppText.Subtext
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "50%",
+            }}
+          >
+            No channels found. Make your own and they will appear here
+          </AppText.Subtext>
+        )}
+
         <Portal>
           <Modal
             visible={modalVisibility}
