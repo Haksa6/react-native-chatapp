@@ -8,7 +8,23 @@ import User from "../../models/userSchema";
 const pubsub = new PubSub();
 
 export default {
-  Query: {},
+  Query: {
+    getChannelData: async (root: undefined, args: { channelID: string }) => {
+      return await Channel.findById(args.channelID);
+    },
+    //Get the logged in users channels
+    getUsersChannels: async (
+      root: undefined,
+      args: undefined,
+      context: any,
+    ) => {
+      let channels: any = [];
+      for (let i = 0; i < context.currentUser.channels.length; i++) {
+        channels.push(Channel.findById(context.currentUser.channels[i]));
+      }
+      return channels;
+    },
+  },
   Mutation: {
     createChannel: async (
       root: undefined,

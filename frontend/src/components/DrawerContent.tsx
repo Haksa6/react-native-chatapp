@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { useState } from "react";
 import {
   Appbar,
@@ -14,6 +14,75 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useApolloClient } from "@apollo/client";
 import useCurrentUser from "../hooks/useCurrentUser";
 
+const data = [
+  {
+    title: "hejsan",
+  },
+  {
+    title: "hejsan",
+  },
+  {
+    title: "sssssssssssssssssssssssssssssssssss",
+  },
+  {
+    title: "hejsan",
+  },
+  {
+    title: "hejsan",
+  },
+  {
+    title: "sssssssssssssssssssssssssssssssssss",
+  },
+  {
+    title: "hejsan",
+  },
+  {
+    title: "hejsan",
+  },
+  {
+    title: "sssssssssssssssssssssssssssssssssss",
+  },
+  {
+    title: "hejsan",
+  },
+  {
+    title: "hejsan",
+  },
+  {
+    title: "sssssssssssssssssssssssssssssssssss",
+  },
+  {
+    title: "hejsan",
+  },
+  {
+    title: "hejsan",
+  },
+  {
+    title: "sssssssssssssssssssssssssssssssssss",
+  },
+];
+
+const ChannelItem = ({ title }: any) => {
+  return (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 10,
+        marginTop: 10,
+      }}
+    >
+      <Avatar.Text
+        label={title.title[0].toUpperCase()}
+        size={34}
+        style={{ marginRight: 10 }}
+      />
+      <AppText.Subtext>{title.title}</AppText.Subtext>
+    </View>
+  );
+};
+
 const DrawerContent = ({ navigation }: any) => {
   const [modalVisibility, setModalVisibility] = useState(false);
   const showModal = () => setModalVisibility(true);
@@ -22,7 +91,6 @@ const DrawerContent = ({ navigation }: any) => {
 
   const { currentUser } = useCurrentUser();
   console.log(currentUser);
-  console.log(AsyncStorage.getItem("token"));
 
   const logOut = async () => {
     await AsyncStorage.removeItem("token");
@@ -47,15 +115,26 @@ const DrawerContent = ({ navigation }: any) => {
           onPress={showModal}
         />
       </Appbar>
-      <View style={{ display: "flex", alignItems: "center" }}>
+      <View
+        style={{
+          alignItems: "center",
+          padding: "7%",
+        }}
+      >
         <Button
           mode="contained"
-          style={styles.newChatButton}
+          style={styles.newChannelButton}
           onPress={() => navigation.navigate("NewChannel")}
           contentStyle={{ height: 45 }}
         >
           New channel
         </Button>
+        <FlatList
+          data={data}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: "15%", paddingTop: "10%" }}
+          renderItem={({ item }) => <ChannelItem title={item} />}
+        />
         <Portal>
           <Modal
             visible={modalVisibility}
@@ -107,11 +186,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  newChatButton: {
+  newChannelButton: {
     backgroundColor: theme.colors.backgroundBlue,
     borderRadius: 5,
-    width: "90%",
-    marginTop: "5%",
+    width: "100%",
+    marginTop: "3%",
   },
   modalContainer: {
     backgroundColor: theme.colors.backgroundPrimary,
