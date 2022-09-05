@@ -69,7 +69,7 @@ const Home = ({ navigation, route }: any) => {
     fetchPolicy: "cache-and-network",
   });
 
-  let position;
+  let position: number;
   //Get the current chat from the index from drawer or if it doesnt exists just get the 1st one
   route.params === undefined ? (position = 0) : (position = route.params.index);
 
@@ -95,7 +95,9 @@ const Home = ({ navigation, route }: any) => {
               icon={"account-plus"}
               color={theme.colors.textPrimary}
               onPress={() => {
-                navigation.navigate("AddNewUser");
+                navigation.navigate("AddNewUser", {
+                  channelID: dataChannels[position]._id,
+                });
               }}
             ></IconButton>
           </>

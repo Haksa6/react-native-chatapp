@@ -1,38 +1,55 @@
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet, Pressable } from "react-native";
 import { Appbar, Searchbar, Avatar } from "react-native-paper";
 import { useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import AppText from "../components/AppText";
 import theme from "../constants/Theme";
 import { GET_ALL_USERS } from "../graphql/queries";
+import { ADD_USER_TO_CHANNEL } from "../graphql/mutations";
 
-const User = ({ username }: any) => {
+const UserItem = ({ user, channelID }: any) => {
+  const [addUserToChannel] = useMutation(ADD_USER_TO_CHANNEL);
+  const onSubmit = async () => {
+    try {
+      console.log(user.username);
+      console.log(channelID);
+      await addUserToChannel({
+        variables: { username: user.username, channelId: channelID },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <View
-      style={{
-        width: "95%",
-        flex: 1,
-        flexDirection: "row",
-        padding: 10,
-        alignItems: "center",
-        justifyContent: "flex-start",
-      }}
-    >
-      <Avatar.Text label={username.username[0].toUpperCase()} size={34} />
-      <AppText.Subtitle style={{ fontSize: 16, marginLeft: 10 }}>
-        {username.username}
-      </AppText.Subtitle>
-    </View>
+    <Pressable onPress={onSubmit}>
+      <View
+        style={{
+          width: "95%",
+          flex: 1,
+          flexDirection: "row",
+          padding: 10,
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
+      >
+        <Avatar.Text label={user.username[0].toUpperCase()} size={34} />
+        <AppText.Subtitle style={{ fontSize: 16, marginLeft: 10 }}>
+          {user.username}
+        </AppText.Subtitle>
+      </View>
+    </Pressable>
   );
 };
 
-const AddNewUser = ({ navigation }: any) => {
+const AddNewUser = ({ navigation, route }: any) => {
   //Searhbar text
   const [searchQuery, setSearchQuery] = useState("");
   const onChangeSearch = (query: string) => setSearchQuery(query);
 
   //Get users list from the backend
   const result = useQuery(GET_ALL_USERS, { fetchPolicy: "cache-and-network" });
+
   //Filter results based on the searchbar
   let filteredResult = null;
 
@@ -69,7 +86,9 @@ const AddNewUser = ({ navigation }: any) => {
       {result.loading ? null : (
         <FlatList
           data={filteredResult}
-          renderItem={({ item }) => <User username={item} />}
+          renderItem={({ item }) => (
+            <UserItem user={item} channelID={route.params.channelID} />
+          )}
         />
       )}
     </View>

@@ -53,10 +53,15 @@ export default {
 
       return newChannel;
     },
-    addUserToChannel: async (root: undefined, args: any) => {
+    addUserToChannel: async (root: undefined, args: any, context: any) => {
       const { username, channelID } = args;
 
+      if (username === context.currentUser.username) {
+        throw new ApolloError("Can't add yourself!");
+      }
+
       const user = await User.findOne({ username });
+
       console.log(user);
 
       //if user is found add the user on the channels user list

@@ -30,3 +30,18 @@ export const CREATE_CHANNEL = gql`
     }
   }
 `;
+
+export const ADD_USER_TO_CHANNEL = gql`
+  mutation AddUserToChannel($username: String!, $channelId: String!) {
+    addUserToChannel(username: $username, channelID: $channelId) {
+      _id
+      title
+      users
+      chats {
+        senderName
+        text
+        date
+      }
+    }
+  }
+`;

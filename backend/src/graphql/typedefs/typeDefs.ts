@@ -38,7 +38,7 @@ export const typeDefs = gql`
     registerUser(username: String!, password: String!): Token
     loginUser(username: String!, password: String!): Token
     createChannel(title: String!): Channel
-    addUserToChannel(username: String!, channelID: ID!): Channel
+    addUserToChannel(username: String!, channelID: String!): Channel
     sendMessage(
       channelID: ID!
       senderName: String!

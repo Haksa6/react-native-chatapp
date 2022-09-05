@@ -30,10 +30,11 @@ const ChannelItem = ({ channel, index, navigation }: any) => {
           alignItems: "center",
           marginBottom: 10,
           marginTop: 10,
+          width: "100%",
         }}
       >
         <Avatar.Text
-          label={channel.title[0]}
+          label={channel.title[0].toUpperCase()}
           size={34}
           style={{ marginRight: 10 }}
         />
@@ -59,7 +60,6 @@ const DrawerContent = ({ navigation }: any) => {
   }
 
   const data = result.data?.getUsersChannels;
-  console.log(data);
 
   const logOut = async () => {
     await AsyncStorage.removeItem("token");
@@ -86,7 +86,6 @@ const DrawerContent = ({ navigation }: any) => {
       </Appbar>
       <View
         style={{
-          alignItems: "center",
           padding: "7%",
         }}
       >
