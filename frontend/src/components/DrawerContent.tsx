@@ -33,7 +33,7 @@ const ChannelItem = ({ channel, index, navigation }: any) => {
         }}
       >
         <Avatar.Text
-          label={channel.title[0].toUpperCase()}
+          label={channel.title[0]}
           size={34}
           style={{ marginRight: 10 }}
         />
@@ -57,7 +57,9 @@ const DrawerContent = ({ navigation }: any) => {
   if (result.loading) {
     return <></>;
   }
+
   const data = result.data?.getUsersChannels;
+  console.log(data);
 
   const logOut = async () => {
     await AsyncStorage.removeItem("token");

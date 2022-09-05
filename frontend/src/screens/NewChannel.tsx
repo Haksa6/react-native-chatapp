@@ -3,9 +3,28 @@ import { Appbar, TextInput, Button } from "react-native-paper";
 import theme from "../constants/Theme";
 import AppText from "../components/AppText";
 import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { CREATE_CHANNEL } from "../graphql/mutations";
+import { GET_USERS_CHANNELS } from "../graphql/queries";
 
 const NewChannel = ({ navigation }: any) => {
   const [inputText, setInputText] = useState("");
+  const [createChannel] = useMutation(CREATE_CHANNEL, {
+    refetchQueries: () => [
+      {
+        query: GET_USERS_CHANNELS,
+      },
+    ],
+  });
+
+  const onSubmit = async () => {
+    try {
+      await createChannel({ variables: { title: inputText } });
+      navigation.navigate("Root");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -58,7 +77,7 @@ const NewChannel = ({ navigation }: any) => {
         style={styles.blueButton}
         mode="contained"
         disabled={inputText === "" ? true : false}
-        onPress={() => {}}
+        onPress={onSubmit}
       >
         Create Channel
       </Button>

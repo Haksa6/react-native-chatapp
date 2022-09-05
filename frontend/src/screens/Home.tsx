@@ -70,8 +70,8 @@ const Home = ({ navigation, route }: any) => {
   });
 
   let position;
-  route.params === undefined ? (position = 0) : (position = route.params.index);
   //Get the current chat from the index from drawer or if it doesnt exists just get the 1st one
+  route.params === undefined ? (position = 0) : (position = route.params.index);
 
   if (resultChannels.loading) {
     return <></>;

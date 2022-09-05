@@ -15,3 +15,18 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+export const CREATE_CHANNEL = gql`
+  mutation CreateChannel($title: String!) {
+    createChannel(title: $title) {
+      _id
+      title
+      users
+      chats {
+        senderName
+        text
+        date
+      }
+    }
+  }
+`;
