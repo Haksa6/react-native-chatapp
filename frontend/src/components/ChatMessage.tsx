@@ -15,11 +15,11 @@ const ChatMessage = ({ message }: any) => {
             marginRight: "3%",
           }}
         >
-          Weeti
+          {message.senderName}
         </AppText.Subtitle>
-        <AppText style={{}}>02/02/2019</AppText>
+        <AppText>{message.date}</AppText>
       </View>
-      <AppText>{message.message}</AppText>
+      <AppText>{message.text}</AppText>
     </View>
   );
 };

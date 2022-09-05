@@ -46,3 +46,18 @@ export const GET_USERS_CHANNELS = gql`
     }
   }
 `;
+
+export const GET_CHANNEL_DATA = gql`
+  query GetChannelData($channelId: String!) {
+    getChannelData(channelID: $channelId) {
+      _id
+      title
+      users
+      chats {
+        text
+        senderName
+        date
+      }
+    }
+  }
+`;

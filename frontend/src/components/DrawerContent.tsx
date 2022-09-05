@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Pressable } from "react-native";
 import { useState } from "react";
 import {
   Appbar,
@@ -15,24 +15,31 @@ import { useApolloClient, useQuery } from "@apollo/client";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { GET_USERS_CHANNELS } from "../graphql/queries";
 
-const ChannelItem = ({ title }: any) => {
+const ChannelItem = ({ channel, index, navigation }: any) => {
+  const onClick = () => {
+    navigation.navigate("Home", {
+      index: index,
+    });
+  };
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 10,
-        marginTop: 10,
-      }}
-    >
-      <Avatar.Text
-        label={title.title[0].toUpperCase()}
-        size={34}
-        style={{ marginRight: 10 }}
-      />
-      <AppText.Subtext>{title.title}</AppText.Subtext>
-    </View>
+    <Pressable onPress={onClick}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 10,
+          marginTop: 10,
+        }}
+      >
+        <Avatar.Text
+          label={channel.title[0].toUpperCase()}
+          size={34}
+          style={{ marginRight: 10 }}
+        />
+        <AppText.Subtext>{channel.title}</AppText.Subtext>
+      </View>
+    </Pressable>
   );
 };
 
@@ -97,7 +104,13 @@ const DrawerContent = ({ navigation }: any) => {
               paddingBottom: "15%",
               paddingTop: "10%",
             }}
-            renderItem={({ item }) => <ChannelItem title={item} />}
+            renderItem={({ item, index }) => (
+              <ChannelItem
+                channel={item}
+                index={index}
+                navigation={navigation}
+              />
+            )}
           />
         ) : (
           <AppText.Subtext

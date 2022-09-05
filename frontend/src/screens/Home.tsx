@@ -14,12 +14,6 @@ import ChatMessage from "../components/ChatMessage";
 import { useQuery } from "@apollo/client";
 import { GET_USERS_CHANNELS } from "../graphql/queries";
 
-const DATA = [
-  {
-    message: "Second Item",
-  },
-];
-
 const InputBox = ({}) => {
   return (
     <KeyboardAvoidingView
@@ -46,12 +40,12 @@ const InputBox = ({}) => {
           }}
         >
           <TextInput
-            placeholder="Message e"
+            placeholder="Send a message"
             placeholderTextColor={theme.colors.textSecondary}
             multiline
             style={{
               flex: 1,
-              color: theme.colors.textSecondary,
+              color: theme.colors.textPrimary,
               padding: 2,
             }}
           />
@@ -70,15 +64,20 @@ const InputBox = ({}) => {
   );
 };
 
-const Home = ({ navigation }: any) => {
-  const result = useQuery(GET_USERS_CHANNELS, {
+const Home = ({ navigation, route }: any) => {
+  const resultChannels = useQuery(GET_USERS_CHANNELS, {
     fetchPolicy: "cache-and-network",
   });
-  if (result.loading) {
+
+  let position;
+  route.params === undefined ? (position = 0) : (position = route.params.index);
+  //Get the current chat from the index from drawer or if it doesnt exists just get the 1st one
+
+  if (resultChannels.loading) {
     return <></>;
   }
-  const dataChannels = result.data?.getUsersChannels;
 
+  const dataChannels = resultChannels.data?.getUsersChannels;
   return (
     <View style={styles.container}>
       <Appbar style={styles.appbar}>
@@ -91,7 +90,7 @@ const Home = ({ navigation }: any) => {
         />
         {dataChannels.length !== 0 ? (
           <>
-            <Appbar.Content title={"sdasd"} />
+            <Appbar.Content title={dataChannels[position]?.title} />
             <IconButton
               icon={"account-plus"}
               color={theme.colors.textPrimary}
@@ -105,7 +104,7 @@ const Home = ({ navigation }: any) => {
       {dataChannels.length !== 0 ? (
         <>
           <FlatList
-            data={DATA}
+            data={dataChannels[position].chats}
             renderItem={({ item }) => <ChatMessage message={item} />}
             inverted
           />
