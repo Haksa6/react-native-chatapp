@@ -96,19 +96,22 @@ export default {
         { new: true },
       );
 
-      const newMessage: any = {
-        senderName: args.senderName,
-      };
-
       if (channel === null) {
         throw new ApolloError("Channel was not found!");
-      } else {
-        newMessage["senderName"] = args.senderName;
-        newMessage["date"] = args.date;
-        newMessage["text"] = args.text;
       }
 
-      pubsub.publish("MESSAGE_SENT", { newMessageSubscription: newMessage });
+      pubsub.publish("MESSAGE_SENT", {
+        newMessageSubscription: {
+          senderName: args.senderName,
+          date: args.date,
+          text: args.text,
+        },
+      });
+      const newMessage = {
+        senderName: args.senderName,
+        date: args.date,
+        text: args.text,
+      };
       return newMessage;
     },
   },

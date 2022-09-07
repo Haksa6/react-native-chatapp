@@ -1,10 +1,36 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+  split,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
+import { getMainDefinition } from "@apollo/client/utilities";
 
 const httpLink = createHttpLink({
-  uri: "http://192.168.68.112:3001/graphql",
+  uri: "http://86.50.38.57:3001/graphql",
 });
+
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: "ws://86.50.38.57:3001/graphql",
+  }),
+);
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  httpLink,
+);
 
 const createApolloClient = () => {
   const authLink = setContext(async (_, { headers }) => {
@@ -25,7 +51,7 @@ const createApolloClient = () => {
   });
 
   return new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: authLink.concat(splitLink),
     cache: new InMemoryCache(),
   });
 };

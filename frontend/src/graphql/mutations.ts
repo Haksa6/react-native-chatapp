@@ -45,3 +45,23 @@ export const ADD_USER_TO_CHANNEL = gql`
     }
   }
 `;
+
+export const SEND_MESSAGE = gql`
+  mutation SendMessage(
+    $channelId: String!
+    $senderName: String!
+    $text: String!
+    $date: String!
+  ) {
+    sendMessage(
+      channelID: $channelId
+      senderName: $senderName
+      text: $text
+      date: $date
+    ) {
+      senderName
+      text
+      date
+    }
+  }
+`;

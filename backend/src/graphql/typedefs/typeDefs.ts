@@ -40,7 +40,7 @@ export const typeDefs = gql`
     createChannel(title: String!): Channel
     addUserToChannel(username: String!, channelID: String!): Channel
     sendMessage(
-      channelID: ID!
+      channelID: String!
       senderName: String!
       text: String!
       date: String!
@@ -48,6 +48,6 @@ export const typeDefs = gql`
   }
 
   type Subscription {
-    newMessageSubscription(channelID: ID!): Message
+    newMessageSubscription: Message
   }
 `;

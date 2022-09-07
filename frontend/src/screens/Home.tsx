@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -11,10 +11,38 @@ import { Appbar, IconButton } from "react-native-paper";
 import AppText from "../components/AppText";
 import theme from "../constants/Theme";
 import ChatMessage from "../components/ChatMessage";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_USERS_CHANNELS } from "../graphql/queries";
+import { MESSAGE_SUBSCRIPTION } from "../graphql/subscriptions";
+import { SEND_MESSAGE } from "../graphql/mutations";
+import useCurrentUser from "../hooks/useCurrentUser";
 
-const InputBox = ({}) => {
+const InputBox = ({ channelID }: any) => {
+  const { currentUser } = useCurrentUser();
+  const [sendMessage] = useMutation(SEND_MESSAGE);
+  const [inputText, setInputText] = useState("");
+
+  const onSubmit = async () => {
+    try {
+      await sendMessage({
+        variables: {
+          channelId: channelID,
+          senderName: currentUser.username,
+          text: inputText,
+          date: new Date(Date.now()).toDateString(),
+        },
+        refetchQueries: () => [
+          {
+            query: GET_USERS_CHANNELS,
+          },
+        ],
+      });
+      setInputText("");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -43,6 +71,9 @@ const InputBox = ({}) => {
             placeholder="Send a message"
             placeholderTextColor={theme.colors.textSecondary}
             multiline
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            onChangeText={inputText => setInputText(inputText)}
+            value={inputText}
             style={{
               flex: 1,
               color: theme.colors.textPrimary,
@@ -54,7 +85,7 @@ const InputBox = ({}) => {
           icon={"send"}
           size={24}
           color={theme.colors.textPrimary}
-          onPress={() => {}}
+          onPress={onSubmit}
           style={{
             backgroundColor: theme.colors.backgroundBlue,
           }}
@@ -65,19 +96,19 @@ const InputBox = ({}) => {
 };
 
 const Home = ({ navigation, route }: any) => {
-  const resultChannels = useQuery(GET_USERS_CHANNELS, {
+  const { ...result } = useQuery(GET_USERS_CHANNELS, {
     fetchPolicy: "cache-and-network",
   });
+
+  const dataInChannel = result.data?.getUsersChannels;
 
   let position: number;
   //Get the current chat from the index from drawer or if it doesnt exists just get the 1st one
   route.params === undefined ? (position = 0) : (position = route.params.index);
-
-  if (resultChannels.loading) {
+  if (result.loading) {
     return <></>;
   }
 
-  const dataChannels = resultChannels.data?.getUsersChannels;
   return (
     <View style={styles.container}>
       <Appbar style={styles.appbar}>
@@ -88,29 +119,29 @@ const Home = ({ navigation, route }: any) => {
             navigation.openDrawer();
           }}
         />
-        {dataChannels.length !== 0 ? (
+        {dataInChannel.length !== 0 ? (
           <>
-            <Appbar.Content title={dataChannels[position]?.title} />
+            <Appbar.Content title={dataInChannel[position]?.title} />
             <IconButton
               icon={"account-plus"}
               color={theme.colors.textPrimary}
               onPress={() => {
                 navigation.navigate("AddNewUser", {
-                  channelID: dataChannels[position]._id,
+                  channelID: dataInChannel[position]._id,
                 });
               }}
             ></IconButton>
           </>
         ) : null}
       </Appbar>
-      {dataChannels.length !== 0 ? (
+      {dataInChannel.length !== 0 ? (
         <>
           <FlatList
-            data={dataChannels[position].chats}
+            data={dataInChannel[position].chats}
             renderItem={({ item }) => <ChatMessage message={item} />}
             inverted
           />
-          <InputBox />
+          <InputBox channelID={dataInChannel[position]._id} />
         </>
       ) : (
         <AppText.Subtitle
