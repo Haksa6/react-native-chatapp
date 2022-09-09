@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import { securityVariablesConfig } from "../config";
 
+
+//jwt functions
 export const createAuthToken = (username: string) => {
   return jwt.sign({ username: username }, securityVariablesConfig.secret, {
     expiresIn: securityVariablesConfig.timeExpiration,

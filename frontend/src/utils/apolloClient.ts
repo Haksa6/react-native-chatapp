@@ -10,6 +10,7 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 
+//The apollo server link using the ip since it doesnt with work localhost for some reason, use ipconfig to find your address
 const httpLink = createHttpLink({
   uri: "http://86.50.38.57:3001/graphql",
 });
@@ -33,6 +34,7 @@ const splitLink = split(
 );
 
 const createApolloClient = () => {
+  //Used for authentication for user, get token from header
   const authLink = setContext(async (_, { headers }) => {
     try {
       const token = await AsyncStorage.getItem("token");

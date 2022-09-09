@@ -13,7 +13,7 @@ import theme from "../constants/Theme";
 import ChatMessage from "../components/ChatMessage";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_USERS_CHANNELS } from "../graphql/queries";
-import { MESSAGE_SUBSCRIPTION } from "../graphql/subscriptions";
+// import { MESSAGE_SUBSCRIPTION } from "../graphql/subscriptions";
 import { SEND_MESSAGE } from "../graphql/mutations";
 import useCurrentUser from "../hooks/useCurrentUser";
 
@@ -108,6 +108,9 @@ const Home = ({ navigation, route }: any) => {
   if (result.loading) {
     return <></>;
   }
+  const x = dataInChannel[position].chats;
+  const y = [...x].reverse();
+  console.log(y);
 
   return (
     <View style={styles.container}>
@@ -137,7 +140,7 @@ const Home = ({ navigation, route }: any) => {
       {dataInChannel.length !== 0 ? (
         <>
           <FlatList
-            data={dataInChannel[position].chats}
+            data={y}
             renderItem={({ item }) => <ChatMessage message={item} />}
             inverted
           />

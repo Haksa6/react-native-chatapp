@@ -8,9 +8,4 @@ const securityVariablesConfig = Object.freeze({
   timeExpiration: process.env.EXPIRATION || "2h",
 });
 
-const env = {
-  development: process.env.NODE_ENV === "development",
-  production: process.env.NODE_ENV === "production",
-};
-
-export { port, url, env, securityVariablesConfig };
+export { port, url, securityVariablesConfig };

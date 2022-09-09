@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { CHANNEL_INFO } from "./fragments";
 
 export const GET_ALL_USERS = gql`
   query GetAllUsers {
@@ -35,29 +36,17 @@ export const CURRENT_USER = gql`
 export const GET_USERS_CHANNELS = gql`
   query GetUsersChannels {
     getUsersChannels {
-      _id
-      title
-      users
-      chats {
-        senderName
-        date
-        text
-      }
+      ...channelFields
     }
   }
+  ${CHANNEL_INFO}
 `;
 
 export const GET_CHANNEL_DATA = gql`
   query GetChannelData($channelId: String!) {
     getChannelData(channelID: $channelId) {
-      _id
-      title
-      users
-      chats {
-        text
-        senderName
-        date
-      }
+      ...channelFields
     }
   }
+  ${CHANNEL_INFO}
 `;

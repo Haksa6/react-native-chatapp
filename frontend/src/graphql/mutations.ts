@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { CHANNEL_INFO } from "./fragments";
 
 export const REGISTER_USER = gql`
   mutation registerUser($username: String!, $password: String!) {
@@ -19,31 +20,19 @@ export const LOGIN_USER = gql`
 export const CREATE_CHANNEL = gql`
   mutation CreateChannel($title: String!) {
     createChannel(title: $title) {
-      _id
-      title
-      users
-      chats {
-        senderName
-        text
-        date
-      }
+      ...channelFields
     }
   }
+  ${CHANNEL_INFO}
 `;
 
 export const ADD_USER_TO_CHANNEL = gql`
   mutation AddUserToChannel($username: String!, $channelId: String!) {
     addUserToChannel(username: $username, channelID: $channelId) {
-      _id
-      title
-      users
-      chats {
-        senderName
-        text
-        date
-      }
+      ...channelFields
     }
   }
+  ${CHANNEL_INFO}
 `;
 
 export const SEND_MESSAGE = gql`
