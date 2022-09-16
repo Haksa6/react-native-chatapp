@@ -100,17 +100,14 @@ const Home = ({ navigation, route }: any) => {
     fetchPolicy: "cache-and-network",
   });
 
+  if (result.loading) {
+    return <></>;
+  }
   const dataInChannel = result.data?.getUsersChannels;
 
   let position: number;
   //Get the current chat from the index from drawer or if it doesnt exists just get the 1st one
   route.params === undefined ? (position = 0) : (position = route.params.index);
-  if (result.loading) {
-    return <></>;
-  }
-  const x = dataInChannel[position].chats;
-  const y = [...x].reverse();
-  console.log(y);
 
   return (
     <View style={styles.container}>
@@ -138,14 +135,13 @@ const Home = ({ navigation, route }: any) => {
         ) : null}
       </Appbar>
       {dataInChannel.length !== 0 ? (
-        <>
+        <View style={{ marginTop: "auto" }}>
           <FlatList
-            data={y}
+            data={dataInChannel[position]?.chats}
             renderItem={({ item }) => <ChatMessage message={item} />}
-            inverted
           />
           <InputBox channelID={dataInChannel[position]._id} />
-        </>
+        </View>
       ) : (
         <AppText.Subtitle
           style={{ alignSelf: "center", marginTop: "50%", textAlign: "center" }}

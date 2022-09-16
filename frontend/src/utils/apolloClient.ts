@@ -12,12 +12,12 @@ import { getMainDefinition } from "@apollo/client/utilities";
 
 //The apollo server link using the ip since it doesnt with work localhost for some reason, use ipconfig to find your address
 const httpLink = createHttpLink({
-  uri: "http://86.50.38.57:3001/graphql",
+  uri: "http://192.168.68.112:3001/graphql",
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "ws://86.50.38.57:3001/graphql",
+    url: "ws://192.168.68.112:3001/graphql",
   }),
 );
 
