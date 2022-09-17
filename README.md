@@ -17,5 +17,5 @@ Add your own .env file and add PORT for the port the backend will use when start
 
 ## Things to implement
 
-- Remove channels and users
+- Add notification when user is added to the channel
 - Get GraphQL subscriptions to work
