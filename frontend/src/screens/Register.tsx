@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import theme from "../constants/Theme";
-import { TextInput } from "react-native-paper";
+import { TextInput, Appbar } from "react-native-paper";
 import AppText from "../components/AppText";
-import ArrowBack from "../components/ArrowBack";
 import { Button } from "react-native-paper";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -52,7 +51,16 @@ const Register = ({ navigation }: any) => {
     >
       {({ handleSubmit, handleChange, errors, setFieldTouched, touched }) => (
         <View style={styles.container}>
-          <ArrowBack navigation={navigation} />
+          <Appbar style={styles.appbar}>
+            <Appbar.BackAction
+              size={26}
+              color={theme.colors.textPrimary}
+              onPress={() => {
+                navigation?.goBack();
+              }}
+              style={{ elevation: 0 }}
+            />
+          </Appbar>
           <AppText.Title style={{ fontWeight: "bold", marginVertical: 15 }}>
             Register
           </AppText.Title>
@@ -162,6 +170,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: "90%",
     marginTop: 10,
+  },
+  appbar: {
+    backgroundColor: theme.colors.backgroundPrimary,
+    alignSelf: "flex-start",
+    borderColor: theme.colors.backgroundPrimary,
+    elevation: 0,
   },
 });
 

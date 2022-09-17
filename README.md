@@ -2,6 +2,8 @@
 
 Instant messaging chat application with channels, similar to Discord.
 
+![Gif](Chatapp.gif)
+
 For this project
 
 - In backend I used GraphQL, MongoDB Atlas, Typescript and mongoose
